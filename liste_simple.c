@@ -93,7 +93,7 @@ void ajoutDebut(int x,liste * L)
 void ajoutFin(int x,liste * L)
 {
     // Allocation de mémoire pour une nouvelle cellule
-    liste C=(liste)malloc(sizeof(cellule));
+    cellule * C=(cellule *)malloc(sizeof(cellule));
     //Remplissage de la cellule
     C->element=x;
     C->suivant=NULL;
@@ -232,6 +232,40 @@ void supression(liste* L, unsigned i)
       return ;
 }
 
+void ajout(int element, int indice, liste * L)
+{
+    unsigned n = longueur(*L);
+    if(L==NULL || indice == 0)
+    {
+        ajoutDebut(element, L);
+        return ;
+    }
+    if(indice == n - 1)
+    {
+        ajoutFin(element, L);
+        return ;
+    }
+    if(indice >= n)
+    {
+        printf("L'indice que vous avez entrer est hors de portée\n");
+    }
+    else
+    {
+        cellule * C = (cellule *)malloc(sizeof(cellule));
+        C->element = element;
+        liste temp = *L;
+        int j = 0;
+        while(j < indice)
+        {
+            temp = temp->suivant;
+            j++;
+        }
+        C->suivant = temp->suivant;
+        temp->suivant = C;
+        return ;
+    }
+}
+
 int main()
 {
     liste L=NULL;
@@ -246,6 +280,8 @@ int main()
     printf("Le nombre d'occurences du chiffre 2 est : %u\n", occurence(2, L));
     printf("Length of this list is : %u\n", length(L));
     supression(&L, 6);
+    affichageListe(L);
+    ajout(3, 3,&L);
     affichageListe(L);
     return 0;
 
