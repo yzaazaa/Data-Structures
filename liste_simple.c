@@ -252,7 +252,7 @@ void ajout(int element, int indice, liste * L)
     }
     if(indice >= n)
     {
-        printf("L'indice que vous avez entrer est hors de portée\n");
+        printf("L'indice que     ajoutFin(x, L);vous avez entrer est hors de portée\n");
     }
     else
     {
@@ -312,28 +312,53 @@ liste concatener(liste L1, liste L2)
     return L;
 }
 
+void inserer(int x, liste * L)
+{
+    cellule * C = (cellule *)malloc(sizeof(cellule));
+    C->element = x;
+    C->suivant = NULL;
+    if((*L) == NULL || (*L)->element >= x)
+    {
+        C->suivant = *L;
+        *L = C;
+    }
+    else
+    {
+        liste temp = *L;
+        while(temp->suivant != NULL && temp->suivant->element < x)
+        {
+            temp = temp->suivant;
+        }
+        C->suivant = temp->suivant;
+        temp->suivant = C;
+    }
+}
+
+liste trier(liste * L)
+{
+    liste L1 = NULL;
+    liste temp = *L;
+    while(temp!=NULL)
+    {
+        inserer(temp->element, &L1);
+        temp = temp->suivant;
+    }
+    return L1;
+}
+
 int main()
 {
     liste L=NULL;
-    ajoutDebut(1,&L);
-    ajoutDebut(2,&L);
-    ajoutDebut(3,&L);
-    ajoutDebut(4,&L);
-    ajoutDebut(5,&L);
-    ajoutDebut(6,&L);
+    ajoutFin(3,&L);
+    ajoutFin(4,&L);
+    ajoutFin(1,&L);
+    ajoutFin(-1,&L);
     ajoutFin(0,&L);
+    ajoutFin(7,&L);
+    ajoutFin(8,&L);
     affichageListe(L);
-    printf("Le nombre d'occurences du chiffre 2 est : %u\n", occurence(2, L));
-    printf("Length of this list is : %u\n", length(L));
-    supression(&L, 6);
-    affichageListe(L);
-    ajout(3, 3,&L);
-    affichageListe(L);
-    int array[5] = {1,2,3,4,5};
-    liste K = tableauListe(5, array);
+    liste K = trier(&L);
     affichageListe(K);
-    liste R = concatener(L, K);
-    affichageListe(R);
     return 0;
 
 }
