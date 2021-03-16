@@ -160,6 +160,7 @@ void liberer(liste L)
     }
 }
 
+// rechercher un élément x dans une liste
 liste recherche(int x, liste L)
 {
     liste temp = L;
@@ -173,6 +174,7 @@ liste recherche(int x, liste L)
     return NULL;
 }
 
+// calculer le nombre d'occurences d'un entier x dans une liste
 unsigned occurence(int x, liste L)
 {
     liste temp = L;
@@ -186,6 +188,7 @@ unsigned occurence(int x, liste L)
     return occ;
 }
 
+// calculer la longueur d'une liste sans occurences
 unsigned length(liste L)
 {
 
@@ -201,6 +204,7 @@ unsigned length(liste L)
     return len;
 }
 
+// supression d'un élément dans une liste
 void supression(liste* L, unsigned i)
 {
       if(i >= longueur(*L) || longueur(*L) == 0)
@@ -232,6 +236,7 @@ void supression(liste* L, unsigned i)
       return ;
 }
 
+// ajout d'un élément dans une liste
 void ajout(int element, int indice, liste * L)
 {
     unsigned n = longueur(*L);
@@ -266,6 +271,47 @@ void ajout(int element, int indice, liste * L)
     }
 }
 
+liste tableauListe(unsigned taille, int array[])
+{
+    liste L = NULL;
+    for(int i=0; i < taille; i++)
+    {
+        ajoutFin(array[i], &L);
+    }
+    return L;
+}
+
+int * listeTableau(liste L)
+{
+    unsigned taille = longueur(L);
+    int *array = (int *)malloc(taille * sizeof(int));
+    liste temp = L;
+    for(int i=0; i<taille;i++)
+    {
+        array[i] = temp->element;
+        temp = temp->suivant;
+    }
+    return array;
+}
+
+liste concatener(liste L1, liste L2)
+{
+    liste temp1 = L1;
+    liste temp2 = L2;
+    liste L = NULL;
+    while(temp1!=NULL)
+    {
+        ajoutFin(temp1->element, &L);
+        temp1 = temp1->suivant;
+    }
+    while(temp2!=NULL)
+    {
+        ajoutFin(temp2->element, &L);
+        temp2 = temp2->suivant;
+    }
+    return L;
+}
+
 int main()
 {
     liste L=NULL;
@@ -283,6 +329,11 @@ int main()
     affichageListe(L);
     ajout(3, 3,&L);
     affichageListe(L);
+    int array[5] = {1,2,3,4,5};
+    liste K = tableauListe(5, array);
+    affichageListe(K);
+    liste R = concatener(L, K);
+    affichageListe(R);
     return 0;
 
 }
