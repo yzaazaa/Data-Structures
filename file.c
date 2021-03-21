@@ -1,6 +1,6 @@
 //
 //  file.c
-//  
+//
 //
 //
 
@@ -122,7 +122,17 @@ void affichage_file(file F)
     printf("]\n");
 }
 
-
+file copie(file F)
+{
+    file COPIE=(file){NULL, NULL};
+    file temp = F;
+    while(temp.debut!=NULL)
+    {
+        enfiler(temp.debut->element, &COPIE);
+        temp.debut = temp.debut->suivant;
+    }
+    return COPIE;
+}
 
 int main()
 {
@@ -130,10 +140,9 @@ int main()
     enfiler(1,&F);
     enfiler(2,&F);
     enfiler(3,&F);
-    affichage_file(F);
-    defiler(&F);
-    affichage_file(F);
     enfiler(6,&F);
     affichage_file(F);
+    file R = copie(F);
+    affichage_file(R);
     return 0;
 }
