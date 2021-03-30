@@ -6,14 +6,13 @@ typedef struct file
 	int taille;
 	int tailleFile;
 	int * tete;
-	unsigned l;
 } file;
 
-file fileVide(file F, int taille)
+file fileVide(size_t taille)
 {
+	file F;
 	F.taille = taille;
 	F.tailleFile = 0;
-	F.l = 0;
 	F.tete = (int *)malloc(taille * sizeof(int));
 	return F;
 }
@@ -37,37 +36,48 @@ void lire(file F)
 
 void enfiler(file * F, int element)
 {
-	(*F).tete[(*F).tailleFile] = element;
-	(*F).tailleFile++;
+	if((*F).tailleFile < (*F).taille)
+	{
+		(*F).tete[(*F).tailleFile] = element;
+		(*F).tailleFile++;
+		return ;
+	}
+	printf("La file est pleine.\n");
 }
 
 int defiler(file * F)
 {
-	(*F).l++;
 	int debut = (*F).tete[0];
 	(*F).tailleFile--;
+	for(int i = 1; i<(*F).taille; i++)
+		(*F).tete[i-1] = (*F).tete[i];
 	return debut;
 }
 
 void affichageFile(file F)
 {
 	printf("[");
-	for(int i = F.l; i<F.tailleFile; i++)
+	int i = 0;
+	while(i < F.tailleFile-1)
 	{
 		printf("%d, ", F.tete[i]);
+		i++;
 	}
+	printf("%d]", F.tete[i]);
 	printf("\n");
 }
 
 int main()
 {
-	file F = fileVide(F, 4);
+	file F = fileVide(4);
 	enfiler(&F, 0);
 	enfiler(&F, 1);
 	enfiler(&F, 2);
 	enfiler(&F, 3);
 	lire(F);
 	affichageFile(F);
+	enfiler(&F, 4);
+	defiler(&F);
 	defiler(&F);
 	affichageFile(F);
 	return 0;
