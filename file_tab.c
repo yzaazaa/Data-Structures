@@ -48,8 +48,8 @@ void enfiler(file * F, int element)
 int defiler(file * F)
 {
 	int debut = (*F).tete[0];
-	(*F).tailleFile--;
-	for(int i = 1; i<(*F).taille; i++)
+	F->tailleFile--;
+	for(int i = 1; i<F->taille; i++)
 		(*F).tete[i-1] = (*F).tete[i];
 	return debut;
 }
